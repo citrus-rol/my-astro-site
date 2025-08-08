@@ -1,0 +1,32 @@
+---
+import Navbar from '../components/Navbar.astro';
+import WorksCard from '../components/WorksCard.astro';
+import BaseLayout from '../layouts/Layout.astro';
+
+const worksList = [
+  {
+    title: '作品一',
+    date: '2025-08-01',
+    image: '/images/work1.jpg',
+  },
+  {
+    title: '作品二',
+    date: '2025-07-15',
+    image: '/images/work2.jpg',
+  },
+  {
+    title: '作品三',
+    date: '2025-06-10',
+    image: '/images/work3.jpg',
+  },
+];
+---
+
+<BaseLayout title="作品集">
+  <Navbar />
+  <main style="display:flex; flex-wrap:wrap; gap:24px; justify-content:center; min-height:80vh;">
+    {worksList.map((work) => (
+      <WorksCard title={work.title} date={work.date} image={work.image} />
+    ))}
+  </main>
+</BaseLayout>

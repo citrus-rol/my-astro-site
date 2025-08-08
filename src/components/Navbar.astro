@@ -1,0 +1,51 @@
+<style>
+  nav {
+    background-color: #505E66;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: flex-end;
+    font-weight: 500;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #E5AF3A;
+  }
+
+  .nav-link.active {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  @media (max-width: 480px) {
+    nav {
+      padding: 10px 16px;
+    }
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+    }
+  }
+</style>
+
+<nav>
+  <div class="nav-links">
+    <a href="/" class={`nav-link ${Astro.url.pathname === '/' ? 'active' : ''}`}>首頁</a>
+    <a href="/works" class={`nav-link ${Astro.url.pathname === '/works' ? 'active' : ''}`}>作品集</a>
+    <a href="/contact" class={`nav-link ${Astro.url.pathname === '/contact' ? 'active' : ''}`}>聯絡資訊</a>
+  </div>
+</nav>
