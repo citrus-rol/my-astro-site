@@ -1,3 +1,7 @@
+---
+const base = '/my-astro-site';
+---
+
 <style>
   nav {
     background-color: #505E66;
@@ -44,8 +48,8 @@
 
 <nav>
   <div class="nav-links">
-    <a href="/" class={`nav-link ${Astro.url.pathname === '/' ? 'active' : ''}`}>首頁</a>
-    <a href="/works" class={`nav-link ${Astro.url.pathname === '/works' ? 'active' : ''}`}>作品集</a>
-    <a href="/contact" class={`nav-link ${Astro.url.pathname === '/contact' ? 'active' : ''}`}>聯絡資訊</a>
+    <a href={`${base}/`} class={`nav-link ${Astro.url.pathname === base + '/' ? 'active' : ''}`}>首頁</a>
+    <a href={`${base}/works`} class={`nav-link ${Astro.url.pathname === base + '/works' ? 'active' : ''}`}>作品集</a>
+    <a href={`${base}/contact`} class={`nav-link ${Astro.url.pathname === base + '/contact' ? 'active' : ''}`}>聯絡資訊</a>
   </div>
 </nav>

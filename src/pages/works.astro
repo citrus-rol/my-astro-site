@@ -3,21 +3,23 @@ import Navbar from '../components/Navbar.astro';
 import WorksCard from '../components/WorksCard.astro';
 import BaseLayout from '../layouts/Layout.astro';
 
+const base = import.meta.env.BASE_URL;
+
 const worksList = [
   {
     title: '作品一',
     date: '2025-08-01',
-    image: '/images/work1.jpg',
+    image: `${base}images/work1.jpg`,
   },
   {
     title: '作品二',
     date: '2025-07-15',
-    image: '/images/work2.jpg',
+    image: `${base}images/work2.jpg`,
   },
   {
     title: '作品三',
     date: '2025-06-10',
-    image: '/images/work3.jpg',
+    image: `${base}images/work3.jpg`,
   },
 ];
 ---

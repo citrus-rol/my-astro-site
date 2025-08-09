@@ -1,6 +1,7 @@
 ---
 import Navbar from '../components/Navbar.astro';
 import BaseLayout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL;  // Astro 內建 base 路徑
 ---
 
 <BaseLayout title="首頁">
@@ -8,6 +9,6 @@ import BaseLayout from '../layouts/Layout.astro';
   <main>
     <h1>歡迎來到我的網站</h1>
     <p>這裡是我的個人作品與設計分享空間。希望你會喜歡我的作品！</p>
-    <img src="/images/hero.jpg" alt="示意圖片" class="hero" />
+    <img src={`${base}images/hero.jpg`} alt="示意圖片" class="hero" />
   </main>
 </BaseLayout>
