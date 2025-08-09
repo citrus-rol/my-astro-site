@@ -1,5 +1,5 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+export default defineConfig({
+  outDir: 'docs', // 將輸出目錄改成 docs
+});
