@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  outDir: 'docs', // 將輸出目錄改成 docs
+  base: '/my-astro-site/',  // 網站根路徑，重要！
+  outDir: 'docs',           // 輸出目錄
 });
