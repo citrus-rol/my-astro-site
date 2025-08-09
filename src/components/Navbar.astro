@@ -48,7 +48,7 @@ const base = '/my-astro-site';
 
 <nav>
   <div class="nav-links">
-    <a href={`${base}/`} class={`nav-link ${Astro.url.pathname === base + '/' ? 'active' : ''}`}>首頁</a>
+    <a href={`${base}/`} class={`nav-link ${Astro.url.pathname === base + '/' || Astro.url.pathname === base ? 'active' : ''}`}>首頁</a>
     <a href={`${base}/works`} class={`nav-link ${Astro.url.pathname === base + '/works' ? 'active' : ''}`}>作品集</a>
     <a href={`${base}/contact`} class={`nav-link ${Astro.url.pathname === base + '/contact' ? 'active' : ''}`}>聯絡資訊</a>
   </div>

@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  base: '/my-astro-site/',  // 這裡要和你的 repo 名稱完全一樣（含前後斜線）
+  base: '/my-astro-site/',  // 根路徑，對應 GitHub Pages 子路徑
   outDir: 'docs',           // 輸出資料夾
 });
