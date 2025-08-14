@@ -1,47 +1,111 @@
 ---
-const { title, date, image } = Astro.props;
+const { title, date, image, isAboveFold = false } = Astro.props;
+const base = import.meta.env.BASE_URL || '/';
+const imgSrc = image.startsWith(base) ? image : `${base}${image.replace(/^\//, '')}`;
 ---
-
 <style>
   .card {
-    background-color: #60727A; /* 比#505E66亮一點，保留卡片辨識 */
-    border-radius: 12px;
-    padding: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
+    position: relative;
+    border-radius: 16px;
+    padding: 24px;
+    box-sizing: border-box;
     cursor: pointer;
-    width: 280px;
+    width: 100%;
+    background-color: #d3d7d91a;
+    box-shadow: 0 0 16px 4px #00000033;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    z-index: 1;
   }
-
   .card:hover {
     transform: scale(1.05);
+    background-color: #d3d7d94d;
+    box-shadow: inset 0 0 24px 12px rgba(0, 0, 0, 0.2);
+  }
+  .inner-img {
+    position: relative; /* 讓此元素作為定位參考點，方便 ::after 絕對定位 */
+    border-radius: 8px; /* 圓角 8px */
+    width: 100%; /* 寬度佔滿容器 */
+    height: auto; /* 高度自動，保持比例 */
+    object-fit: cover; /* 裁切圖片以填滿容器，不變形 */
+    margin-bottom: 12px; /* 底部間距 12px */
+    display: block; /* 區塊元素，避免圖片底下多餘空隙 */
+    z-index: 2; /* 圖片層級高於背景 */
+    opacity: 0.70; /* 圖片透明度 70% */
+    box-shadow: inset 0 0 20px 12px #00000033; /* 外陰影，柔和黑色 (#00000033 = 透明黑) */
+    transition: box-shadow 0.3s ease, opacity 0.3s ease; /* 陰影與透明度變化時平滑過渡 */
+  }
+  .inner-img::after {
+    content: ""; /* 必須有內容才會生成偽元素，這裡用空字串 */
+    position: absolute; /* 絕對定位在圖片內 */
+    top: 0; left: 0; right: 0; bottom: 0; /* 完全覆蓋整張圖片 */
+    border-radius: 8px; /* 與圖片相同圓角，避免蓋出邊界 */
+    background-color: #0000004d; /* 半透明黑色覆蓋層 (#0000004d 約 30% 透明) */
+    pointer-events: none; /* 滑鼠事件不影響覆蓋層，直接作用於圖片 */
+    z-index: 3; /* 疊在圖片上層 */
+    transition: background-color 0.3s ease; /* 覆蓋層顏色變化時平滑過渡 */
+  }
+  .card:hover .inner-img {
+    box-shadow: none;          /* 滑鼠移到 .card 時，圖片陰影消失 */
+    opacity: 1;                /* 圖片變成完全不透明，變亮 */
+  }
+  .card:hover .inner-img::after {
+    background-color: transparent;  /* 覆蓋層背景變透明，遮罩消失 */
   }
 
-  .card img {
-    border-radius: 8px;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    margin-bottom: 12px;
+
+  /* 文字區容器 */
+  .text-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* 靠右 */
+    padding-right: 12px;   /* 讓出空間給直線 */
+    text-align: right;
+  }
+
+  /* 文字區容器右側直線 */
+  .text-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0px; /* 靠近容器右側，且不超出 padding */
+    width: 1.2px;
+    background-color: #E5AF3A;
+    border-radius: 1px;
   }
 
   .title {
-    text-align: center;
-    font-size: 1.1rem;
+    font-size: clamp(0.8rem, 1vw, 1.5rem);
     color: #ffffff;
     margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
-
   .date {
-    text-align: center;
-    font-size: 0.8rem;
+    font-size: clamp(0.6rem, 1.2vw, 1rem);
     color: #e0e0e0;
     opacity: 0.75;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
 
-<div class="card" role="article" aria-label={title}>
-  <img src={image} alt={title} />
-  <div class="title">{title}</div>
-  <div class="date">{date}</div>
+<div
+  class="card"
+  role="article"
+  aria-label={title}
+>
+  <img
+    class="inner-img"
+    src={imgSrc}
+    alt={title}
+    loading={isAboveFold ? "eager" : "lazy"}
+  />
+  <div class="text-container">
+    <div class="title">{title}</div>
+    <div class="date">{date}</div>
+  </div>
 </div>

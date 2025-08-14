@@ -1,0 +1,160 @@
+---
+import Navbar from '../components/Navbar.astro';
+import WorksCardVariant from '../components/WorksCardVariant.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL || '/';
+
+const worksList = [
+  { title: '字體設計｜主題設計', date: '2025-02-26', image: 'images/works_05_a.svg' },
+  { title: '字體設計｜主題設計', date: '2025-02-26', image: 'images/works_05_b.svg' },
+  { title: '字體設計｜主題設計', date: '2025-02-26', image: 'images/works_05_c.svg' },
+  { title: '字體設計｜主題設計', date: '2025-02-26', image: 'images/works_05_d.svg' },
+  { title: '字體設計｜主題設計', date: '2025-02-26', image: 'images/works_05_e.svg' },
+];
+---
+
+<BaseLayout title="05_typography_theme">
+  <Navbar slot="navbar" />
+
+  <!-- 返回箭頭連結 -->
+  <div class="back-link">
+    <a href={`${base}works`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      返回 Works
+    </a>
+  </div>
+
+  <main class="works-container">
+
+    <!-- 上方區塊：大圖 + 文字 -->
+    <section class="top-section">
+      <div class="left-image">
+        <WorksCardVariant 
+          image={`${base}${worksList[0].image}`} 
+          variant="grid"
+          width="400px"
+          height="400px"  
+        />
+      </div>
+      <div class="right-text">
+        <h2>{worksList[0].title}</h2>
+        <p>這裡放作品介紹文字，可以多行描述作品特色或設計理念。</p>
+      </div>
+    </section>
+
+    <!-- 分隔線 -->
+    <div class="section-divider"></div>
+
+    <!-- 下方剩餘作品 -->
+    <section class="bottom-section">
+      {worksList.slice(1).map((work) => (
+        <WorksCardVariant 
+          image={`${base}${work.image}`} 
+          variant="small"
+          width="200px"
+          height="200px"
+        />
+      ))}
+    </section>
+
+  </main>
+
+  <Footer slot="footer" />
+
+  <style>
+  /* 主要作品容器 */
+  .works-container { 
+    background-color: #d3d7d91a; /* 淡透明背景色 */
+    box-shadow: 0 0 16px 4px #00000033; /* 內陰影，讓容器浮起 */
+    padding: 40px; /* 內距 */
+    border-radius: 12px; /* 圓角 */
+    max-width: 920px; /* 最大寬度 */
+    margin: 40px auto; /* 上下間距 + 水平置中 */
+  }
+
+  /* 上方兩欄區塊 */
+  .top-section { 
+    display: grid; /* 使用 Grid 排版 */
+    grid-template-columns: 1fr 1fr; /* 左右各一半寬度 */
+    gap: 24px; /* 欄位間距 */
+    margin-bottom: 40px; /* 下方外距 */
+  }
+
+  /* 右側文字區 */
+  .right-text {
+    display: flex;
+    flex-direction: column; /* 垂直排列文字 */
+    justify-content: center; /* 垂直置中 */
+    align-items: flex-start; /* 靠左對齊 */
+    padding: 16px; /* 內距 */
+    height: 100%; /* 高度填滿父元素 */
+  }
+
+  /* 標題樣式 */
+  .right-text h2 {
+    margin: 0 0 12px; /* 上下外距，下面間距12px */
+  }
+
+  /* 文字段落樣式 */
+  .right-text p {
+    margin: 0; /* 移除外距 */
+    line-height: 1.5; /* 行高 */
+  }
+
+  /* 下方小圖區域 */
+  .bottom-section { 
+    display: grid; /* 使用 Grid 排版 */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 自動換行，最小200px */
+    gap: 24px; /* 欄位間距 */
+    justify-items: center; /* 水平置中每個小圖 */
+  }
+
+  /* 上下區塊分隔線 */
+  .section-divider {
+    width: 96%; /* 線寬占容器 96% */
+    height: 1px; /* 線高 */
+    background-color: rgba(255,255,255,0.4); /* 半透明白色線 */
+    margin: 40px auto; /* 上下間距 40px，左右自動置中 */
+  }
+
+  /* 返回連結容器 */
+  .back-link {
+    max-width: 1200px; /* 最大寬度 */
+    margin: 20px auto 0; /* 上方間距 + 水平置中 */
+    padding: 0 80px; /* 左右內距 */
+    font-size: 1rem; /* 字體大小 */
+  }
+
+  /* 返回連結內部樣式 */
+  .back-link a {
+    display: inline-flex; /* 內部文字與圖示排成一列 */
+    align-items: center; /* 垂直置中 */
+    gap: 6px; /* 文字與圖示間距 */
+    text-decoration: none; /* 移除底線 */
+    color: rgba(255, 255, 255, 0.8); /* 文字顏色 */
+    transition: color 0.2s; /* 滑鼠移入顏色過渡 */
+  }
+
+  /* 返回連結滑鼠移入效果 */
+  .back-link a:hover {
+    color: #E5AF3A; /* 變成橙色 */
+  }
+
+  /* 返回連結圖示 */
+  .back-link svg {
+    flex-shrink: 0; /* 圖示不縮小 */
+  }
+
+  /* RWD：螢幕小於768px時，上方欄位改為單欄 */
+  @media (max-width: 768px) { 
+    .top-section { 
+      grid-template-columns: 1fr; /* 單欄排列 */
+    }
+  }
+  </style>
+
+</BaseLayout>

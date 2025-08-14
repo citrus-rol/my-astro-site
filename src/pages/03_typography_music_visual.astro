@@ -1,0 +1,150 @@
+---
+import Navbar from '../components/Navbar.astro';
+import WorksCardVariant from '../components/WorksCardVariant.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';
+
+const base = import.meta.env.BASE_URL || '/';
+
+const worksList = [
+  { title: '字體設計｜音樂視覺', date: '2025-03-26', image: 'images/works_09_a.svg', type: 'image' },
+  { title: '字體設計｜音樂視覺', date: '2025-03-26', image: 'images/works_09_b.svg', type: 'image' },
+  { title: '字體設計｜音樂視覺', date: '2025-03-26', image: 'images/works_09_c.svg', type: 'image' },
+  { title: '字體設計｜音樂視覺', date: '2025-03-26', image: 'images/works_09_d.svg', type: 'image' },
+  { title: '字體設計｜音樂視覺', date: '2025-03-26', image: 'video/works_09_video.mp4', type: 'vedio' },
+];
+---
+
+<BaseLayout title="03_typography_music_visual">
+  <Navbar slot="navbar" />
+
+  <!-- 返回箭頭連結 -->
+  <div class="back-link">
+    <a href={`${base}works`}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      返回 Works
+    </a>
+  </div>
+
+  <main class="works-container">
+
+    <!-- 上方大圖或影片 + 文字 -->
+    <section class="top-section">
+      <div class="media-wrapper">
+        {worksList[0].type === 'image' ? (
+          <WorksCardVariant image={`${base}${worksList[0].image}`} variant="grid" width="400px" height="400px" />
+        ) : (
+          <video src={`${base}${worksList[0].image}`} controls width="400" height="400"></video>
+        )}
+      </div>
+      <div class="right-text">
+        <h2>{worksList[0].title}</h2>
+        <p>這裡放作品介紹文字，可以多行描述作品特色或設計理念。</p>
+      </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- 下方小圖/影片網格 -->
+    <section class="bottom-section">
+      {worksList.slice(1).map((work) => (
+        work.type === 'image' ? (
+          <WorksCardVariant image={`${base}${work.image}`} variant="small" width="200px" height="200px" />
+        ) : (
+          <video src={`${base}${work.image}`} controls width="200" height="200"></video>
+        )
+      ))}
+    </section>
+
+  </main>
+
+  <Footer slot="footer" />
+
+  <style>
+    .works-container { 
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 16px 4px #00000033;
+      background-color: #d3d7d91a;
+    }
+
+    .top-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 40px;
+    }
+
+    .media-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .right-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 16px;
+    }
+    .right-text h2 { margin: 0 0 12px; }
+    .right-text p { margin: 0; line-height: 1.5; }
+
+    .bottom-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      justify-items: center;
+    }
+
+    .section-divider {
+      width: 96%;
+      height: 1px;
+      background-color: rgba(255,255,255,0.4);
+      margin: 40px auto;
+    }
+    /* 上方大圖或影片 wrapper */
+    .media-wrapper video {
+      width: 100%;        /* 滿版寬度 */
+      height: auto;       /* 高度自動調整 */
+      border-radius: 12px; /* 加上圓角 */
+      display: block;
+      object-fit: cover;  /* 視訊保持完整比例並填滿容器 */
+    }
+    /* 下方小影片 */
+    .bottom-section video {
+      width: 200px;
+      height: 200px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .back-link {
+      max-width: 100%;
+      margin: 20px auto 0;
+      padding: 0 5%;
+      font-size: 1rem;
+    }
+    .back-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      transition: color 0.2s;
+    }
+    .back-link a:hover { color: #E5AF3A; }
+    .back-link svg { flex-shrink: 0; }
+
+    @media (max-width: 768px) { 
+      .top-section { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      .bottom-section { gap: 16px; }
+    }
+  </style>
+</BaseLayout>

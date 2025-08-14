@@ -1,0 +1,88 @@
+---
+// BackToTop.astro
+---
+<button id="back-to-top" aria-label="回到頂部">↑</button>
+
+<style>
+/* 按鈕基本樣式 */
+#back-to-top {
+  position: fixed; /* 固定位置 */
+  bottom: 30px; /* 距離底部 */
+  right: 20px; /* 距離右側 */
+  width: 50px; /* 按鈕寬度 */
+  height: 50px; /* 按鈕高度 */
+  border-radius: 50%; /* 圓形按鈕 */
+  background-color: hwb(0 0% 100% / 0.25); /* 半透明底色 */
+  border: none; /* 移除邊框 */
+  font-size: 24px; /* 箭頭大小 */
+  color: white; /* 箭頭顏色 */
+  cursor: pointer; /* 鼠標樣式 */
+  opacity: 0; /* 初始隱藏 */
+  pointer-events: none; /* 隱藏時不可點擊 */
+  display: flex; /* Flex 排版 */
+  align-items: center; /* 垂直置中 */
+  justify-content: center; /* 水平置中 */
+  transition: opacity 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease; /* 過渡效果 */
+  z-index: 1000; /* 層級 */
+}
+
+/* 手機尺寸調整 */
+@media (max-width: 600px) {
+  #back-to-top {
+    width: 35px; /* 按鈕寬度 */
+    height: 35px; /* 按鈕高度 */
+    font-size: 18px; /* 箭頭大小 */
+    bottom: 15px; /* 距離底部 */
+    right: 12px; /* 距離右側 */
+  }
+}
+
+/* 顯示按鈕 + 微跳動畫 */
+#back-to-top.show {
+  opacity: 1; /* 顯示 */
+  pointer-events: auto; /* 可點擊 */
+  animation: bounce 1s 2 forwards, fadeIn 0.4s forwards; /* 跳動 2 次 + 淡入 */
+}
+
+/* 懸停效果 */
+#back-to-top:hover {
+  transform: translateY(-5px); /* 微浮動 */
+  box-shadow: 0 0 28px #E5AF3A; /* 光暈加強 */
+}
+
+/* 微跳動畫 keyframes */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); } /* 起點與終點 */
+  50% { transform: translateY(-6px); } /* 中間微跳 */
+}
+
+/* 淡入動畫 keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+/* DOM 載入完成後執行 */
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('back-to-top'); /* 取得按鈕元素 */
+  if (!btn) return; /* 若不存在則返回 */
+
+  /* 滾動監聽 */
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) { /* 滾動超過 500px */
+      if (!btn.classList.contains('show')) {
+        btn.classList.add('show'); /* 顯示按鈕並動畫 */
+      }
+    } else {
+      btn.classList.remove('show'); /* 滾動回頂部隱藏 */
+    }
+  });
+
+  /* 點擊回頂部 */
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' }); /* 平滑滾動 */
+  });
+});
+</script>

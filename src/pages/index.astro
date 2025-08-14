@@ -1,14 +1,277 @@
 ---
 import Navbar from '../components/Navbar.astro';
-import BaseLayout from '../layouts/Layout.astro';
-const base = import.meta.env.BASE_URL;
+import Footer from '../components/Footer.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Carousel from '../components/Carousel.astro';
+import BackToTop from '../components/BackToTop.astro';
+
+const base: string = import.meta.env.BASE_URL || '/';
 ---
 
-<BaseLayout title="首頁">
-  <Navbar />
+<BaseLayout title="Carol Lab">
+  <Navbar slot="navbar" />
+
   <main>
-    <h1>歡迎來到我的網站</h1>
-    <p>這裡是我的個人作品與設計分享空間。希望你會喜歡我的作品！</p>
-    <img src={`${base}images/hero.jpg`} alt="示意圖片" class="hero" />
+    <!-- About 區塊 -->
+    <section class="about-section">
+  <h2>關於 Carol Lab</h2>
+  <p>Carol Lab ｜ 個人設計實驗室，專注於字體設計、品牌視覺以及小動畫創作。</p>
+  <p>我喜歡將創意轉化為可視化的作品，探索簡約且帶有溫度的設計表現。</p>
+
+  <!-- CSS 裝飾元素 -->
+  <div class="decor-circle circle1"></div>
+  <div class="decor-circle circle2"></div>
+  <div class="decor-line line1"></div>
+  <div class="decor-line line2"></div>
+  <div class="decor-dot" style="top:10px; left:50px;"></div>
+  <div class="decor-dot" style="top:60px; left:100px;"></div>
+  <div class="decor-dot" style="top:30px; left:150px;"></div>
+  <div class="decor-dot" style="top:80px; left:200px;"></div>
+</section>
+
+    <!-- Services -->
+    <section class="services-section">
+      <h2>設計服務</h2>
+      <div class="service-cards">
+        <div class="card">
+          <h3>Logo 設計</h3>
+          <p>量身打造品牌標誌，結合簡約與個性化元素。</p>
+        </div>
+        <div class="card">
+          <h3>品牌視覺</h3>
+          <p>建立統一的品牌識別，包含色彩、排版與圖像風格。</p>
+        </div>
+        <div class="card">
+          <h3>字體設計</h3>
+          <p>自創或調整字體，提升品牌與作品的獨特性。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carousel -->
+    <section class="carousel-section">
+      <Carousel />
+    </section>
+
+    <!-- Works -->
+    <a href={`${base}works/`} class="works-section-link">
+    <section class="works-section">
+      <h2>作品區</h2>
+      <p>點擊此處前往作品觀賞</p>
+    </section>
+
+    <!-- Contact -->
+    <a href={`${base}contact/`} class="contact-section-link">
+    <section class="contact-section">
+      <h2>聯絡我</h2>
+      <p>點擊此處前往聯絡表單</p>
+    </section>
+    </a>
+
+    <BackToTop />
+
   </main>
+
+  <Footer slot="footer" />
+
 </BaseLayout>
+
+<style>
+main {
+  max-width: 1024px;
+  margin: 60px auto;
+  font-family: "Noto Sans TC", "Noto Sans", "Microsoft JhengHei", "PingFang TC", "Heiti TC", Arial, sans-serif;
+  color: #ffffff;
+  text-align: center;
+}
+
+h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 24px;
+  color: #E5AF3A;
+}
+
+p {
+  font-size: 0.8rem;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+/* Carousel 區 */
+.carousel-section {
+  margin-bottom: 80px;
+}
+
+/* About 區塊 */
+.about-section {
+  position: relative;
+  margin-bottom: 80px;
+  padding: 56px 24px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* 標題 */
+.about-section h2 {
+  font-size: 1.4rem;
+  text-align: left;
+  padding-left: 32px;
+  margin-top: 4px;
+  color: #E5AF3A;
+}
+
+/* 段落文字 */
+.about-section p {
+  font-size: 0.8rem;
+  text-align: right;
+  margin-bottom: 20px;
+  padding-right: 32px;
+  line-height: 1.2;
+  letter-spacing: 1px; /* 調整字母或英文字母之間的間距 */
+}
+
+/* 光暈圓 */
+.decor-circle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: float 6s ease-in-out infinite alternate;
+}
+.circle1 {
+  width: 120px; height: 120px;
+  top: 10px; left: 24px;
+  background: radial-gradient(circle, rgba(229,175,58,0.3) 0%, rgba(229,175,58,0) 70%);
+}
+.circle2 {
+  width: 60px; height: 60px;
+  bottom: 20px; right: 40px;
+  background: radial-gradient(circle, rgba(229,175,58,0.25) 0%, rgba(229,175,58,0) 70%);
+}
+
+/* 圓頭線條 */
+.decor-line {
+  position: absolute;
+  width: 2px; height: 150px;
+  border-radius: 1px;
+  pointer-events: none;
+  animation: float 5s ease-in-out infinite alternate;
+}
+.line1 {
+  bottom: 20px; left: 40px;
+  background: linear-gradient(to bottom, rgba(229,175,58,0.4), rgba(229,175,58,0));
+}
+.line2 {
+  top: 20px; right: 40px;
+  background: linear-gradient(to top, rgba(229,175,58,0.3), rgba(229,175,58,0));
+}
+
+/* 小圓點 */
+.decor-dot {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(229, 175, 58, 0.5);
+  pointer-events: none;
+  animation: float 5s ease-in-out infinite alternate;
+}
+
+/* 漂浮動畫 */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+/* 服務區 */
+.services-section {
+  margin-bottom: 80px;
+}
+
+.service-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.card {
+  background: #ffffff10;
+  padding: 24px;
+  border-radius: 12px;
+  flex: 1 1 250px;
+  max-width: 300px;
+  text-align: left;
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #E5AF3A;
+}
+
+/* 作品區 */
+.works-section-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.works-section {
+  margin-bottom: 80px;
+  background: #ffffff10;
+  padding: 8px;
+  border-radius: 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.works-section:hover {
+  background: #ffffff20;
+  transform: translateY(-2px);
+}
+
+.works-section h2 {
+  color: #E5AF3A;
+  margin-bottom: 12px;
+}
+
+.works-section p {
+  font-weight: 500;
+}
+
+/* 聯絡區 */
+.contact-section-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.contact-section {
+  margin-bottom: 80px;
+  background: #ffffff10;
+  padding: 8px;
+  border-radius: 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  text-align: center;
+}
+
+.contact-section:hover {
+  background: #ffffff20;
+  transform: translateY(-2px);
+}
+
+.contact-section h2 {
+  color: #E5AF3A;
+  margin-bottom: 12px;
+}
+
+.contact-section p {
+  font-weight: 500;
+}
+</style>

@@ -1,48 +1,52 @@
 ---
 import Navbar from '../components/Navbar.astro';
-import BaseLayout from '../layouts/Layout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Footer from '../components/Footer.astro';  // 記得引入 Footer
+import BackToTop from '../components/BackToTop.astro';
+
 const base = import.meta.env.BASE_URL;
 ---
 
-<BaseLayout title="聯絡我">
-  <Navbar />
+<BaseLayout title="聯絡我" padded={false}>
+  <Navbar slot="navbar" />
   <main class="contact-main">
-    <h2>聯絡我</h2>
     <iframe
       src="https://tally.so/r/wbJ2vo"
       title="聯絡表單"
       class="contact-iframe"
     ></iframe>
   </main>
+  <BackToTop />
+  <Footer slot="footer" />
 
   <style>
     .contact-main {
-      width: 100%;
-      padding: 0 16px;
-      margin: 32px 0;
-      box-sizing: border-box;
+      width: 100%; /* 容器寬度100% */
+      padding: 0; /* 修正這裡 */
+      box-sizing: border-box; /* 包含padding計算寬高 */
     }
     .contact-main h2 {
-      text-align: center;
-      margin-bottom: 24px;
-      font-weight: 600;
-      color: #fff;
+      text-align: left; /* 文字靠左 */
+      padding-left: 50px;
+      margin-bottom: 24px; /* 底部外距24px */
+      font-weight: 600; /* 字重600 */
+      color: #ffffff4d; /* 白色文字，約30%透明度 */
     }
     .contact-iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-      border-radius: 12px;
-      background-color: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      box-sizing: border-box;
-      display: block;
+      width: 100%; /* iframe寬度100% */
+      height: 600px; /* iframe高度600px */
+      border: none; /* 無邊框 */
+      border-radius: 0px; /* 圓角0px */
+      background-color: white; /* 背景白色 */
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* 陰影效果 */
+      box-sizing: border-box; /* 包含padding計算寬高 */
+      display: block; /* 區塊元素顯示 */
     }
 
     @media (max-width: 480px) {
       .contact-main {
-        padding: 0;
-        margin: 24px 0;
+        padding: 0; /* 小螢幕去除內邊距 */
+        margin: 24px 0; /* 上下外距24px */
       }
     }
   </style>

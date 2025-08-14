@@ -1,25 +1,45 @@
 ---
-const base = '/my-astro-site';
+const base = import.meta.env.BASE_URL;
 ---
 
 <style>
   nav {
-    background-color: #505E66;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
     padding: 12px 24px;
+    background-color: #505e66;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    align-items: center;
     font-weight: 500;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
+  }
+
+  nav.scrolled {
+    background-color: #505e6680;
+    backdrop-filter: blur(6px);
+  }
+
+  .logo {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.2rem;
   }
 
   .nav-links {
     display: flex;
     gap: 24px;
+    list-style: none; /* 移除 ul 預設點點 */
   }
 
   .nav-link {
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: #ffffff80;
     padding: 6px 8px;
     border-radius: 6px;
     transition: color 0.3s ease;
@@ -34,22 +54,108 @@ const base = '/my-astro-site';
     font-weight: 700;
   }
 
+  /* 漢堡選單樣式 */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+    width: 25px;
+    height: 20px;
+    justify-content: space-between;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* 漢堡點擊動畫 */
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg);
+    transform-origin: center;
+    position: relative;
+    top: 8.5px;
+  }
+
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg);
+    transform-origin: center;
+    position: relative;
+    bottom: 8.5px;
+  }
+
   @media (max-width: 480px) {
-    nav {
-      padding: 10px 16px;
-    }
     .nav-links {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 16px;
       flex-direction: column;
       align-items: flex-end;
+      background-color: #505e66;
+      padding: 12px 16px;
+      border-radius: 8px;
       gap: 12px;
+    }
+
+    .nav-links.active {
+      display: flex;
+    }
+
+    .hamburger {
+      display: flex;
     }
   }
 </style>
 
-<nav>
-  <div class="nav-links">
-    <a href={`${base}/`} class={`nav-link ${Astro.url.pathname === base + '/' || Astro.url.pathname === base ? 'active' : ''}`}>首頁</a>
-    <a href={`${base}/works`} class={`nav-link ${Astro.url.pathname === base + '/works' ? 'active' : ''}`}>作品集</a>
-    <a href={`${base}/contact`} class={`nav-link ${Astro.url.pathname === base + '/contact' ? 'active' : ''}`}>聯絡資訊</a>
+<nav id="main-nav">
+  <div class="logo">Carol Lab</div>
+
+  <ul class="nav-links">
+    <li><a href={`${base}`} class={`nav-link ${Astro.url.pathname === base || Astro.url.pathname === base + '/' ? 'active' : ''}`}>首頁</a></li>
+    <li><a href={`${base}works`} class={`nav-link ${Astro.url.pathname === base + 'works' ? 'active' : ''}`}>作品集</a></li>
+    <li><a href={`${base}contact`} class={`nav-link ${Astro.url.pathname === base + 'contact' ? 'active' : ''}`}>聯絡資訊</a></li>
+  </ul>
+
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
   </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nav = document.getElementById('main-nav');
+    if (!nav) return;
+
+    const hamburger = nav.querySelector('.hamburger');
+    const navLinks = nav.querySelector('.nav-links');
+
+    if (hamburger && navLinks) {
+      // 滾動背景透明模糊效果
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      });
+
+      // 漢堡選單點擊切換
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+  });
+</script>
